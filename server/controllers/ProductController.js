@@ -1,70 +1,70 @@
 const Product = require('../models/Product');
-const Category = require('../models/Category');
 
-let products = [];
-
-const createProduct = (req, res) => {
-    const { name, price, stock, sellingCount, categoryId } = req.body;
-    const product = new Product(generateProductId(), name, price, stock, sellingCount, categoryId);
-    const category = categories.find(category => category.id === categoryId);
-    if (!category) {
-        return res.status(404).json({ message: 'Category not found' });
+const createProduct = async (req, res) => {
+    try {
+        const { id, product_name, price, quantity } = req.body;
+        const product = new Product({ id, product_name, price, quantity });
+        await product.save();
+        res.status(201).json({ message: 'Product created successfully', product });
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error', error });
     }
-    category.products.push(product);
-    products.push(product);
-    res.status(201).json({ message: 'Product created successfully', product });
 };
 
-const updateProduct = (req, res) => {
-    const productId = req.params.id;
-    const { name, price, stock, sellingCount, categoryId } = req.body;
-    const productIndex = products.findIndex(product => product.id === productId);
-    if (productIndex === -1) {
-        return res.status(404).json({ message: 'Product not found' });
+const updateProduct = async (req, res) => {
+    try {
+        const productId = req.params.id;
+        const { product_name, price, quantity } = req.body;
+        const product = await Product.findByIdAndUpdate(productId, { product_name, price, quantity }, { new: true });
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+        res.json({ message: 'Product updated successfully', product });
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error', error });
     }
-    products[productIndex] = { id: productId, name, price, stock, sellingCount, categoryId };
-    const category = categories.find(category => category.id === categoryId);
-    if (!category) {
-        return res.status(404).json({ message: 'Category not found' });
-    }
-    const productInCategoryIndex = category.products.findIndex(product => product.id === productId);
-    if (productInCategoryIndex !== -1) {
-        category.products[productInCategoryIndex] = products[productIndex];
-    }
-    res.json({ message: 'Product updated successfully', product: products[productIndex] });
 };
 
-const deleteProduct = (req, res) => {
-    const productId = req.params.id;
-    const productIndex = products.findIndex(product => product.id === productId);
-    if (productIndex === -1) {
-        return res.status(404).json({ message: 'Product not found' });
+const deleteProduct = async (req, res) => {
+    try {
+        const productId = req.params.id;
+        const product = await Product.findByIdAndDelete(productId);
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+        res.json({ message: 'Product deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error', error });
     }
-    const categoryId = products[productIndex].categoryId;
-    const category = categories.find(category => category.id === categoryId);
-    if (!category) {
-        return res.status(404).json({ message: 'Category not found' });
-    }
-    const productInCategoryIndex = category.products.findIndex(product => product.id === productId);
-    if (productInCategoryIndex !== -1) {
-        category.products.splice(productInCategoryIndex, 1);
-    }
-    products.splice(productIndex, 1);
-    res.json({ message: 'Product deleted successfully' });
 };
 
-const getAllProducts = (req, res) => {
-    res.json(products);
+const getAllProducts = async (req, res) => {
+    try {
+        const products = await Product.find();
+        res.json(products);
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error', error });
+    }
 };
 
-const getProductById = (req, res) => {
-    const productId = req.params.id;
-    const product = products.find(product => product.id === productId);
-    if (!product) {
-        return res.status(404).json({ message: 'Product not found' });
+const { Types } = require('mongoose');
+
+const getProductById = async (req, res) => {
+    try {
+        const productId = req.params.id;
+        if (!Types.ObjectId.isValid(productId)) {
+            return res.status(400).json({ message: 'Invalid product ID' });
+        }
+        const product = await Product.findById(productId);
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+        res.json(product);
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error', error });
     }
-    res.json(product);
 };
+
 
 module.exports = {
     createProduct,

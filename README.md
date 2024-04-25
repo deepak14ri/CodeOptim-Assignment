@@ -1,39 +1,17 @@
-# Jurysoft Machine Test Backend Post
+# CodeOptim Backend Assignment
 
-Scenario:
-Suppose you are making an ecommerce system where you are
-handling the whole development of the backend. The products
-you are going to sell in the website/application will have a
-category for that you have to store id and name. For each
-category there will be N numbers of products. Product will contain
-name, price, stock, selling count, category. As a Database you
-have to use arrays.
-
-What needs to be done?
-1. Single api to login for user and admin using username and
-password. If the username is user@gmail.com and
-password is 1234 then the user should be able to login as
-user if admin@gmail.com and password 1234 then it should
-login as admin.
-2. Api to create (only for admin), update (only for admin),
-delete (only for admin) (If there is any product in that
-category then it should not delete), fetch all with search
-(for all), fetch single by id for category (for all).
-3. Api to create (only for admin), update (only for admin),
-delete (only for admin) (If the product has been added to
-cart then it should not be deleted), fetch all with search
-(for all), fetch single by id for products (for all).
-4. Api for adding the product to cart by user
-5. Api for removing from cart by user
-
-6. Api to increase the quantity in cart by user
-
-Jurysoft Machine Test Backend Post
-
-What should be submitted?
-1. Zipped code (Laravel / Node js / Python)
-2. Postman collection zip
-Time allotted: 2 Hours
+Create an Application For E-commerce Platform.
+Create an E-commerce Platform’s API Endpoints, which are mentioned below:
+(MongoDB is preferable.)
+• Register API for our customers. Store admin credentials using seeding or
+migration.
+• Login API for our customers.
+• Create the crud APIs for the product.
+• Create add-to-cart functionality with payment gateway integration(You can
+create a Sandbox account for any service like Stripe or PayPal. Etc.,.
+Requirements:
+They can add products to the cart without login, but when they pay the
+amount, they need to do login. (make this validation from the backend before payment.)
 
 ## Installation
 
