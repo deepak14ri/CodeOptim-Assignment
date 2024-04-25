@@ -17,17 +17,8 @@ amount, they need to do login. (make this validation from the backend before pay
 
 1. Install dependencies:
 
-"dependencies": {
-    "bcrypt": "^5.1.1",
-    "body-parser": "^1.20.2",
-    "cookie-parser": "^1.4.6",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.1",
-    "express": "^4.18.2",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.1.1",
-    "nodemon": "^3.1.0"
-  }
+<img width="281" alt="image" src="https://github.com/deepak14ri/CodeOptim-Assignment/assets/49471265/63a06caf-4044-4e5c-8b4c-e5a391a986a0">
+
 
 ## Usage
 
